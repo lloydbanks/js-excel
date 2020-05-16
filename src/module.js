@@ -1,7 +1,7 @@
 console.log('it works!!')
 
 async function f() {
-	return Promise.resolve(true)
+	return Promise.resolve('async works')
 }
 
-f()
+f().then(console.log)
