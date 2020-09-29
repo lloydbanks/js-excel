@@ -1,3 +1,8 @@
-import './module'
+import getObj from './module'
+import './scss/index.scss'
 
-console.log('index works')
+(async () => {
+  await Promise.resolve(true)
+  const obj = getObj()
+  console.log(obj)
+})()
