@@ -8,6 +8,21 @@ const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
 const bundleName = isProd ? 'bundle.[hash]' : 'bundle'
 
+const getJSLoaders = () => {
+  const loaders = [
+    {
+      loader: 'babel-loader',
+      options: {
+        presets: ['@babel/preset-env']
+      }
+    }
+  ]
+
+  if (isDev) loaders.push('eslint-loader')
+
+  return loaders
+}
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'development',
@@ -17,7 +32,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist')
   },
   devtool: isDev ? 'eval-source-map' : false,
-  devServer: { hot: isDev },
+  devServer: {hot: isDev},
   resolve: {
     extensions: ['.js'],
     alias: {
@@ -58,12 +73,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          }
-        }
+        use: getJSLoaders()
       }
     ],
   }
