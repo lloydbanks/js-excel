@@ -1,8 +1,2 @@
-import getObj from './module'
+import './module'
 import './scss/index.scss'
-
-(async () => {
-  await Promise.resolve(true)
-  const obj = getObj()
-  console.log(obj)
-})()
