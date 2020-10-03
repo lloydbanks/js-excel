@@ -12,7 +12,7 @@
     "no-tabs": "off",
     "require-jsdoc": "off",
     "semi": "off",
-    "object-curly-spacing": "off"
+    "object-curly-spacing": "off",
   },
   "extends": ["eslint:recommended", "google"]
 }
