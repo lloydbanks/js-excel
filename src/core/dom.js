@@ -29,6 +29,10 @@ class DOM {
     this.$el.addEventListener(eventType, cb)
   }
 
+  off(eventType, cb) {
+    this.$el.removeEventListener(eventType, cb)
+  }
+
   clear() {
     this.html('')
     return this

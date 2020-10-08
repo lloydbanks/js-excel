@@ -20,12 +20,20 @@ export default class DOMListener {
           method ${getMethodName(listener)} is not implemented in ${component}
         `)
       }
-      const callback = method.bind(this)
-      this.$root.on(listener, callback)
+      this[method] = method.bind(this)
+      this.$root.on(listener, method)
     })
   }
 
-  removeDOMListeners() {}
+  removeDOMListeners() {
+    if (!this.listeners.length) return
+
+    this.listeners.forEach(listener => {
+      this.$root.off(listener, this[getMethodName(listener)])
+    })
+
+    this.listeners.types = []
+  }
 }
 
 function getMethodName(eventName) {
