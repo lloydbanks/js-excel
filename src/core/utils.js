@@ -4,3 +4,9 @@ export const capitalize = str => {
 
   return firstChar + str.slice(1)
 }
+
+export const toChar = code => String.fromCharCode(code)
+
+export const fillArray = (length, map) => {
+  return Array.from(Array(length + 1).keys(), map)
+}
