@@ -3,17 +3,17 @@ import { fillArray, toChar } from '@core/utils'
 
 const { A, Z } = CHAR_CODES
 
-const createRow = data => {
+const createRow = (data, i = '') => {
   return `
     <div class="row">
-        <div class="row-info"></div>
+        <div class="row-info">${i}</div>
         <div class="row-data">${data}</div>
     </div>`
 }
-const createColumn = text => `<div class="column">${text}</div>`
+const createColumn = v => `<div class="column">${v}</div>`
 const createCharColumn = (_, i) => createColumn(toChar(i + A))
-const createCell = text => `<div class="cell" contenteditable>${text}</div>`
-const createCellColumn = (_, i) => createCell(i + 1)
+const createCell = (v = '') => `<div class="cell" contenteditable>${v}</div>`
+const createCellColumn = () => createCell()
 
 export function createTable(rowsCount = 10, colsCount = Z - A) {
   const rows = []
@@ -21,8 +21,10 @@ export function createTable(rowsCount = 10, colsCount = Z - A) {
   const cols = fillArray(colsCount, createCharColumn).join('')
   rows.push(createRow(cols))
 
-  const cells = fillArray(colsCount, createCellColumn).join('')
-  rows.push(createRow(cells))
+  for (let i = 1; i <= rowsCount; i++) {
+    const cells = fillArray(colsCount, createCellColumn).join('')
+    rows.push(createRow(cells, i))
+  }
 
   return rows.join('')
 }
