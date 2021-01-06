@@ -4,7 +4,7 @@ import { fillArray, toChar } from '@core/utils'
 const { A, Z } = CHAR_CODES
 
 const createRow = (data, i = '') => {
-  const resizer = i ? '<div class="row-resize"></div>' : ''
+  const resizer = i ? '<div class="row-resize" data-resize="row"></div>' : ''
 
   return `
     <div class="row">
@@ -18,7 +18,7 @@ const createRow = (data, i = '') => {
 const createColumn = v => `
     <div class="column">
         ${v}
-        <div class="column-resize"></div>
+        <div class="column-resize" data-resize="column"></div>
     </div>
 `
 const createCharColumn = (_, i) => createColumn(toChar(i + A))
