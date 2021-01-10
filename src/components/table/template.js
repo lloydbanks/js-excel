@@ -16,7 +16,7 @@ const createRow = (data, i = '') => {
     </div>`
 }
 const createColumn = v => `
-    <div class="column">
+    <div class="column" data-type="resizable">
         ${v}
         <div class="column-resize" data-resize="column"></div>
     </div>
