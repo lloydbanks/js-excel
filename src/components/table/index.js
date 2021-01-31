@@ -18,14 +18,15 @@ export default class Table extends ExcelComponent {
     if (target.dataset.resize) {
       const $parent = $(target).closest('[data-type="resizable"]')
       const coords = $parent.getCoords()
-
-      console.log(coords)
+      const { col } = $parent.data
+      const cols = document.querySelectorAll(`[data-col="${col}"]`)
 
       document.onmousemove = e => {
         const delta = e.pageX - coords.right
         const width = coords.width + delta
         $parent.$el.style.width = `${width}px`
-        console.log('mousemove width', width)
+        cols.forEach(col => col.style.width = `${width}px`)
+        console.log('mousemove')
       }
 
       document.onmouseup = () => document.onmousemove = null

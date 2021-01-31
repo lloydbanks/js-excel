@@ -15,15 +15,16 @@ const createRow = (data, i = '') => {
         <div class="row-data">${data}</div>
     </div>`
 }
-const createColumn = v => `
-    <div class="column" data-type="resizable">
+const createColumn = (v, i) => `
+    <div class="column" data-type="resizable" data-col="${i}">
         ${v}
         <div class="column-resize" data-resize="column"></div>
     </div>
 `
-const createCharColumn = (_, i) => createColumn(toChar(i + A))
-const createCell = (v = '') => `<div class="cell" contenteditable>${v}</div>`
-const createCellColumn = () => createCell()
+const createCharColumn = (_, i) => createColumn(toChar(i + A), i)
+const createCell = (v = '', i) =>
+  `<div class="cell" contenteditable data-col=${i}>${v}</div>`
+const createCellColumn = (_, i) => createCell('', i)
 
 export function createTable(rowsCount = 10, colsCount = Z - A) {
   const rows = []

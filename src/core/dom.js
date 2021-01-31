@@ -33,6 +33,10 @@ class DOM {
     return this.$el.getBoundingClientRect()
   }
 
+  get data() {
+    return this.$el.dataset
+  }
+
   on(eventType, cb) {
     this.$el.addEventListener(eventType, cb)
   }
