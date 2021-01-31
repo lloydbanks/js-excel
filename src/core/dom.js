@@ -37,6 +37,10 @@ class DOM {
     return this.$el.dataset
   }
 
+  findAll(selector) {
+    return this.$el.querySelectorAll(selector)
+  }
+
   on(eventType, cb) {
     this.$el.addEventListener(eventType, cb)
   }
