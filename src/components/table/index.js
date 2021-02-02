@@ -23,7 +23,7 @@ export default class Table extends ExcelComponent {
       const width = coords.width + delta
 
       $parent.$el.style.width = `${width}px`
-      $cols.forEach(col => col.style.width = `${width}px`)
+      $cols.forEach(col => $(col).css({ width: `${width}px` }))
     }
   }
 
@@ -32,7 +32,7 @@ export default class Table extends ExcelComponent {
       const deltaY = e.pageY - coords.bottom
       const height = coords.height + deltaY
 
-      $parent.$el.style.height = `${height}px`
+      $parent.css({ height: `${height}px` })
     }
   }
 

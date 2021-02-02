@@ -41,6 +41,10 @@ class DOM {
     return this.$el.querySelectorAll(selector)
   }
 
+  css(style) {
+    return Object.assign(this.$el.style, style);
+  }
+
   on(eventType, cb) {
     this.$el.addEventListener(eventType, cb)
   }
