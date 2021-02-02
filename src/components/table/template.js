@@ -7,7 +7,7 @@ const createRow = (data, i = '') => {
   const resizer = i ? '<div class="row-resize" data-resize="row"></div>' : ''
 
   return `
-    <div class="row">
+    <div class="row" data-type="resizable" data-row="${i}">
         <div class="row-info">
             ${i}
             ${resizer}
