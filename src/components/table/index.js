@@ -1,6 +1,8 @@
 import { ExcelComponent } from '@core/ExcelComponent'
 import { createTable } from '@/components/table/template'
-import {$} from '@core/dom';
+import { $ } from '@core/dom'
+
+const COL = 'column'
 
 export default class Table extends ExcelComponent {
   constructor($root) {
@@ -14,38 +16,51 @@ export default class Table extends ExcelComponent {
     return createTable()
   }
 
-  columnResize = ($parent, coords) => {
-    const { col } = $parent.data
-    const $cols = this.$root.findAll(`[data-col="${col}"]`)
-
-    document.onmousemove = e => {
-      const delta = e.pageX - coords.right
-      const width = coords.width + delta
-
-      $parent.$el.style.width = `${width}px`
-      $cols.forEach(col => $(col).css({ width: `${width}px` }))
-    }
-  }
-
-  rowResize = ($parent, coords) => {
-    document.onmousemove = e => {
-      const deltaY = e.pageY - coords.bottom
-      const height = coords.height + deltaY
-
-      $parent.css({ height: `${height}px` })
-    }
-  }
-
   onMousedown = ({ target }) => {
     if (target.dataset.resize) {
-      const type = $(target).data.resize
-      const methodName = `${type}Resize`
-      const $parent = $(target).closest('[data-type="resizable"]')
+      const $resizer = $(target)
+      const $parent = $resizer.closest('[data-type="resizable"]')
       const coords = $parent.getCoords()
+      const type = $resizer.data.resize
+      const sideProp = type === COL ? 'bottom' : 'right'
+      let value
 
-      this[methodName]($parent, coords)
+      $resizer.css({
+        opacity: 1,
+        [sideProp]: '-500px'
+      })
 
-      document.onmouseup = () => document.onmousemove = null
+      document.onmousemove = e => {
+        if (type === COL) {
+          const delta = e.pageX - coords.right
+          value = coords.width + delta
+          $resizer.css({ right: -delta + 'px' })
+        } else {
+          const delta = e.pageY - coords.bottom
+          value = coords.height + delta
+          $resizer.css({ bottom: -delta + 'px' })
+        }
+      }
+
+      document.onmouseup = () => {
+        document.onmousemove = null
+        document.onmouseup = null
+
+        if (type === COL) {
+          $parent.css({ width: value + 'px' })
+          // eslint-disable-next-line no-invalid-this
+          this.$root.findAll(`[data-col="${$parent.data.col}"]`)
+              .forEach(el => el.style.width = value + 'px')
+        } else {
+          $parent.css({ height: value + 'px' })
+        }
+
+        $resizer.css({
+          opacity: 0,
+          bottom: 0,
+          right: 0
+        })
+      }
     }
   }
 }

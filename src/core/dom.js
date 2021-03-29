@@ -41,8 +41,12 @@ class DOM {
     return this.$el.querySelectorAll(selector)
   }
 
+  find(selector) {
+    return $(this.$el.querySelector(selector))
+  }
+
   css(style) {
-    return Object.assign(this.$el.style, style);
+    return Object.assign(this.$el.style, style)
   }
 
   on(eventType, cb) {
