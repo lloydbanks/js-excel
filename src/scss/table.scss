@@ -1,5 +1,5 @@
-@import "variables";
-@import "mixins";
+@import 'variables';
+@import 'mixins';
 
 .excel__table {
   position: absolute;
@@ -7,93 +7,52 @@
   right: 0;
   top: $header-height + $toolbar-height + $formula-height;
   overflow-x: auto;
-  padding-bottom: 2px;
 
   .row {
     display: flex;
-    flex-direction: row;
     min-height: 20px;
     height: $row-height;
   }
 
-  .row-info {
-    position: relative;
+  .row-info, .column {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  .row-info {
     min-width: $info-cell-width;
     height: 100%;
-    border: 1px solid $border-color;
-    background: #f8f9fa;
+    border: 1px solid $grey;
     border-top: none;
+    background: $light-grey;
   }
 
   .row-data {
     display: flex;
   }
 
-  .column {
-    position: relative;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f8f9fa;
+  .column, .cell {
     min-width: 40px;
     width: $cell-width;
-    border: 1px solid $border-color;
-    border-top: 0;
-    border-left: 0;
-    height: 100%;
+  }
+
+  .column {
+    background: $light-grey;
+    border-right: 1px solid $grey;
+    border-bottom: 1px solid $grey;
   }
 
   .cell {
-    min-width: 40px;
     padding: 5px;
-    width: $cell-width;
-    height: 100%;
-    border: 1px solid #e2e3e3;
-    border-top: 0;
-    border-left: 0;
-    color: #111;
+    border-right: 1px solid lighten($grey, 4%);
+    border-bottom: 1px solid lighten($grey, 4%);
     white-space: nowrap;
     outline: none;
 
-
     &.selected {
-      border: none;
-      outline: 2px solid $primary-color;
+      border: 2px solid $blue;
       z-index: 2;
-    }
-  }
-
-  .column-resize, .row-resize {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background: $primary-color;
-    opacity: 0;
-    z-index: 1000;
-
-    &:hover {
-      opacity: 1!important;
-    }
-  }
-
-  .column-resize {
-    top: 0;
-    width: 3px;
-
-    &:hover {
-      cursor: col-resize;
-    }
-  }
-
-  .row-resize {
-    left: 0;
-    height: 4px;
-
-    &:hover {
-      cursor: row-resize;
     }
   }
 }
