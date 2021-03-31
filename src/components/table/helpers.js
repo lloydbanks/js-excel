@@ -1,3 +1,3 @@
 export function shouldResize({ target }) {
-  return target.dataset.resize;
+  return target.dataset.resize
 }
