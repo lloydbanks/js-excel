@@ -1,21 +1,20 @@
 const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
-const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
+const bundleName = isProd ? 'bundle.[hash]' : 'bundle'
 
-const getPath = (dir = 'dist') => path.resolve(__dirname, dir)
-const getFile = (ext = 'js') => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
-
-const jsLoaders = () => {
+const getJSLoaders = () => {
   const loaders = [
     {
       loader: 'babel-loader',
       options: {
-        presets: ['@babel/preset-env']
+        presets: ['@babel/preset-env'],
+        plugins: ['@babel/plugin-proposal-class-properties']
       }
     }
   ]
@@ -26,41 +25,34 @@ const jsLoaders = () => {
 }
 
 module.exports = {
-  context: getPath('src'),
+  context: path.resolve(__dirname, 'src'),
   mode: 'development',
   entry: ['@babel/polyfill', './index.js'],
   output: {
-    filename: getFile(),
-    path: getPath()
+    filename: `${bundleName}.js`,
+    path: path.resolve(__dirname, 'dist')
   },
+  devtool: isDev ? 'eval-source-map' : false,
+  devServer: {hot: isDev},
   resolve: {
     extensions: ['.js'],
     alias: {
-      '~': getPath('src'),
-      '~core': getPath('src/core')
+      '@': path.resolve(__dirname, 'src'),
+      '@core': path.resolve(__dirname, 'src/core'),
     }
   },
-  devtool: isDev && 'source-map',
-  devServer: {
-    port: 3000,
-    hot: isDev
-  },
   plugins: [
-    new CleanWebpackPlugin(),
-    new HTMLWebpackPlugin({
-      template: 'index.html',
-      minify: isProd
+    new HtmlWebpackPlugin({
+      template: 'index.html'
     }),
+    new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
-        {
-          from: getPath('src/favicon.ico'),
-          to: getPath(),
-        }
+        {from: path.resolve(__dirname, 'src/favicon.ico')},
       ],
     }),
     new MiniCssExtractPlugin({
-      filename: getFile('css')
+      filename: `${bundleName}.css`
     })
   ],
   module: {
@@ -82,8 +74,8 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: jsLoaders()
+        use: getJSLoaders()
       }
-    ]
+    ],
   }
 }
