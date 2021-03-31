@@ -1,20 +1,21 @@
 const path = require('path')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
 const {CleanWebpackPlugin} = require('clean-webpack-plugin')
+const HTMLWebpackPlugin = require('html-webpack-plugin')
 const CopyPlugin = require('copy-webpack-plugin')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const isProd = process.env.NODE_ENV === 'production'
 const isDev = !isProd
-const bundleName = isProd ? 'bundle.[hash]' : 'bundle'
 
-const getJSLoaders = () => {
+const getPath = (dir = 'dist') => path.resolve(__dirname, dir)
+const getFile = (ext = 'js') => isDev ? `bundle.${ext}` : `bundle.[hash].${ext}`
+
+const jsLoaders = () => {
   const loaders = [
     {
       loader: 'babel-loader',
       options: {
-        presets: ['@babel/preset-env'],
-        plugins: ['@babel/plugin-proposal-class-properties']
+        presets: ['@babel/preset-env']
       }
     }
   ]
@@ -25,34 +26,41 @@ const getJSLoaders = () => {
 }
 
 module.exports = {
-  context: path.resolve(__dirname, 'src'),
+  context: getPath('src'),
   mode: 'development',
   entry: ['@babel/polyfill', './index.js'],
   output: {
-    filename: `${bundleName}.js`,
-    path: path.resolve(__dirname, 'dist')
+    filename: getFile(),
+    path: getPath()
   },
-  devtool: isDev ? 'eval-source-map' : false,
-  devServer: {hot: isDev},
   resolve: {
     extensions: ['.js'],
     alias: {
-      '@': path.resolve(__dirname, 'src'),
-      '@core': path.resolve(__dirname, 'src/core'),
+      '~': getPath('src'),
+      '~core': getPath('src/core')
     }
   },
+  devtool: isDev && 'source-map',
+  devServer: {
+    port: 3000,
+    hot: isDev
+  },
   plugins: [
-    new HtmlWebpackPlugin({
-      template: 'index.html'
-    }),
     new CleanWebpackPlugin(),
+    new HTMLWebpackPlugin({
+      template: 'index.html',
+      minify: isProd
+    }),
     new CopyPlugin({
       patterns: [
-        {from: path.resolve(__dirname, 'src/favicon.ico')},
+        {
+          from: getPath('src/favicon.ico'),
+          to: getPath(),
+        }
       ],
     }),
     new MiniCssExtractPlugin({
-      filename: `${bundleName}.css`
+      filename: getFile('css')
     })
   ],
   module: {
@@ -74,8 +82,8 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: getJSLoaders()
+        use: jsLoaders()
       }
-    ],
+    ]
   }
 }

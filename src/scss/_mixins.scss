@@ -7,7 +7,7 @@
   display: inline-block;
   color: rgba(0, 0, 0, .7);
 
-  & i {
+  i {
     font-size: 18px;
   }
 
@@ -16,14 +16,13 @@
   }
 
   &:hover {
-    background: #eee;
+    background: $grey;
     cursor: pointer;
   }
 }
 
-
-@mixin clear-list() {
-  list-style: none;
-  margin: 0;
-  padding: 0;
+@mixin flex-center() {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

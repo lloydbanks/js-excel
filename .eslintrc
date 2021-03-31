@@ -11,8 +11,7 @@
     "linebreak-style": 0,
     "no-tabs": "off",
     "require-jsdoc": "off",
-    "semi": "off",
-    "object-curly-spacing": "off",
+    "semi": "off"
   },
   "extends": ["eslint:recommended", "google"]
 }
