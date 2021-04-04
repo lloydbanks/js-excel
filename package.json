@@ -54,6 +54,6 @@
     "singleQuote": true,
     "semi": false,
     "arrowParens": "avoid",
-    "printWidth": 80
+    "printWidth": 120
   }
 }
