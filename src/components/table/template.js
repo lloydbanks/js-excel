@@ -12,7 +12,7 @@ const createRow = (data, i = '') => {
             ${i}
             ${resizer}
         </div>
-        <div class="row-data">${data}</div>
+        <div class="row-data" data-row=${i}>${data}</div>
     </div>`
 }
 const createColumn = (v, i) => `
@@ -22,9 +22,9 @@ const createColumn = (v, i) => `
     </div>
 `
 const createCharColumn = (_, i) => createColumn(toChar(i + A), i)
-const createCell = (v = '', i) =>
-  `<div class="cell" contenteditable data-col=${i}>${v}</div>`
-const createCellColumn = (_, i) => createCell('', i)
+const createCell = (col, row, v = '') =>
+  `<div class="cell" contenteditable data-col=${col} data-id="${row}:${col}">${v}</div>`
+const createCellColumn = row => (_, col) => createCell(col, row)
 
 export function createTable(rowsCount = 10, colsCount = Z - A) {
   const rows = []
@@ -32,9 +32,9 @@ export function createTable(rowsCount = 10, colsCount = Z - A) {
   const cols = fillArray(colsCount, createCharColumn).join('')
   rows.push(createRow(cols))
 
-  for (let i = 1; i <= rowsCount; i++) {
-    const cells = fillArray(colsCount, createCellColumn).join('')
-    rows.push(createRow(cells, i))
+  for (let row = 0; row <= rowsCount; row++) {
+    const cells = fillArray(colsCount, createCellColumn(row)).join('')
+    rows.push(createRow(cells, row + 1))
   }
 
   return rows.join('')

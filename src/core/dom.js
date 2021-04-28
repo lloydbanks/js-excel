@@ -49,6 +49,14 @@ class DOM {
     return Object.assign(this.$el.style, style)
   }
 
+  addClass(className) {
+    this.$el.classList.add(className)
+  }
+
+  removeClass(className) {
+    this.$el.classList.remove(className)
+  }
+
   on(eventType, cb) {
     this.$el.addEventListener(eventType, cb)
   }
