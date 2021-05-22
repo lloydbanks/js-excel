@@ -1,4 +1,4 @@
-import {$} from '@core/dom';
+import { $ } from '@core/dom';
 
 const COL = 'column'
 

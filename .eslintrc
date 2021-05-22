@@ -10,9 +10,10 @@
     "comma-dangle": "off",
     "linebreak-style": 0,
     "no-tabs": "off",
+    "no-invalid-this": "off",
     "require-jsdoc": "off",
     "semi": "off",
-    "object-curly-spacing": "off",
+    "object-curly-spacing": ["error", "always"],
     "max-len": ["error", { "code": 120 }]
   },
   "extends": ["eslint:recommended", "google"]
