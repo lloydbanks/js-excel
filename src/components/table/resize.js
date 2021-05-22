@@ -1,9 +1,6 @@
-import { $ } from '@core/dom';
-
 const COL = 'column'
 
-export default function resizeHandler($root, { target }) {
-  const $resizer = $(target)
+export default function resizeHandler($root, $resizer) {
   const $parent = $resizer.closest('[data-type="resizable"]')
   const coords = $parent.getCoords()
   const type = $resizer.data.resize

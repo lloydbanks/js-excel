@@ -1,7 +1,8 @@
+import { $ } from '@core/dom'
 import { ExcelComponent } from '@core/ExcelComponent'
 import { createTable } from '@/components/table/template'
 import resizeHandler from '@/components/table/resize';
-import { shouldResize } from '@/components/table/helpers';
+import { isCell, shouldResize } from '@/components/table/helpers';
 import { TableSelection } from '@/components/table/selection';
 
 export default class Table extends ExcelComponent {
@@ -20,7 +21,7 @@ export default class Table extends ExcelComponent {
   init() {
     super.init()
 
-    const $firstCell = this.$root.find('[data-id="0:0"]')
+    const $firstCell = this.$root.find('[data-id="1:2"]')
     this.selection.select($firstCell)
   }
 
@@ -28,8 +29,13 @@ export default class Table extends ExcelComponent {
     return createTable()
   }
 
-  onMousedown = e => {
-    // eslint-disable-next-line no-invalid-this
-    if (shouldResize(e)) resizeHandler(this.$root, e)
+  onMousedown = ({ target }) => {
+    const $target = $(target)
+
+    if (shouldResize($target)) {
+      resizeHandler(this.$root, $target)
+    } else if (isCell($target)) {
+      this.selection.select($target)
+    }
   }
 }
