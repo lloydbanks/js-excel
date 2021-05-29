@@ -45,6 +45,17 @@ class DOM {
     return $(this.$el.querySelector(selector))
   }
 
+  id(parse) {
+    const { id } = this.data
+
+    if (parse) {
+      const [row, col] = id.split(':')
+      return { row: +row, col: +col }
+    }
+
+    return id
+  }
+
   css(style) {
     return Object.assign(this.$el.style, style)
   }

@@ -10,3 +10,8 @@ export const toChar = code => String.fromCharCode(code)
 export const fillArray = (length, map) => {
   return Array.from(Array(length + 1).keys(), map)
 }
+
+export const range = (start, end) => {
+  if (start > end) [start, end] = [end, start]
+  return fillArray(end - start, n => n + start)
+}
