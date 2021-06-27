@@ -12,10 +12,17 @@ export class TableSelection {
   }
 
   select($cell) {
+    if (!$cell.$el) return
+
     this.$current = $cell
     this.empty()
     this.group.push($cell)
-    $cell.addClass(TableSelection.className)
+    this.focus()
+  }
+
+  focus() {
+    this.$current.addClass(TableSelection.className).focus()
+    return this
   }
 
   selectGroup($cells) {

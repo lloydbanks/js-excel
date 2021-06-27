@@ -45,6 +45,10 @@ class DOM {
     return $(this.$el.querySelector(selector))
   }
 
+  focus() {
+    return this.$el.focus()
+  }
+
   id(parse) {
     const { id } = this.data
 
@@ -62,10 +66,12 @@ class DOM {
 
   addClass(className) {
     this.$el.classList.add(className)
+    return this.$el
   }
 
   removeClass(className) {
     this.$el.classList.remove(className)
+    return this.$el
   }
 
   on(eventType, cb) {
