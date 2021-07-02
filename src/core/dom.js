@@ -82,6 +82,12 @@ class DOM {
     this.$el.removeEventListener(eventType, cb)
   }
 
+  text(text) {
+    if (!text) return this.$el.textContent
+
+    this.$el.textContent = text
+  }
+
   clear() {
     this.html('')
     return this

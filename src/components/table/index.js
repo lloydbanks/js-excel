@@ -11,9 +11,11 @@ import {
 import { TableSelection } from '@/components/table/selection'
 
 export default class Table extends ExcelComponent {
-  constructor($root) {
+  constructor($root, options) {
     super($root, {
+      name: 'Table',
       listeners: ['mousedown', 'keydown'],
+      ...options
     })
   }
 
@@ -28,6 +30,10 @@ export default class Table extends ExcelComponent {
 
     const $firstCell = this.$root.find('[data-id="0:0"]')
     this.selection.select($firstCell)
+
+    this.observer.subscribe('formula', text => {
+      this.selection.$current.text(text)
+    })
   }
 
   toHTML() {
