@@ -31,7 +31,7 @@ export default class Table extends ExcelComponent {
     const $firstCell = this.$root.find('[data-id="0:0"]')
     this.selection.select($firstCell)
 
-    this.observer.subscribe('formula', text => {
+    this.$on('formula:input', text => {
       this.selection.$current.text(text)
     })
   }

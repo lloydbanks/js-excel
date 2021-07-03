@@ -20,6 +20,6 @@ export default class Formula extends ExcelComponent {
 
   onInput = (e) => {
     const text = e.target.textContent.trim()
-    this.observer.dispatch('formula', text)
+    this.$emit('formula:input', text)
   }
 }
