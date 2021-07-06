@@ -1,10 +1,12 @@
 import { ExcelComponent } from '@core/ExcelComponent'
+import { KEY_ENTER } from '@/components/table/helpers';
+import { $ } from '@core/dom';
 
 export default class Formula extends ExcelComponent {
   constructor($root, options) {
     super($root, {
       name: 'Formula',
-      listeners: ['input'],
+      listeners: ['input', 'keydown'],
       ...options
     })
   }
@@ -18,8 +20,14 @@ export default class Formula extends ExcelComponent {
     `
   }
 
-  onInput = (e) => {
-    const text = e.target.textContent.trim()
-    this.$emit('formula:input', text)
+  onInput = e => {
+    this.$emit('formula:input', $(e.target).text())
+  }
+
+  onKeydown = e => {
+    if (e.key === KEY_ENTER) {
+      e.preventDefault()
+      this.$emit('formula:done')
+    }
   }
 }

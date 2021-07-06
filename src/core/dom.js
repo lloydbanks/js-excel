@@ -14,6 +14,20 @@ class DOM {
     return $el.outerHTML.trim()
   }
 
+  text(text) {
+    const $el = this.$el
+
+    if (typeof text === 'string') {
+      $el.textContent = text
+      return this
+    }
+    if ($el.tagName.toLowerCase() === 'input') {
+      return $el.value.trim()
+    }
+
+    return this.$el.textContent.trim()
+  }
+
   append(node) {
     if (node instanceof DOM) node = node.$el
 
@@ -80,12 +94,6 @@ class DOM {
 
   off(eventType, cb) {
     this.$el.removeEventListener(eventType, cb)
-  }
-
-  text(text) {
-    if (!text) return this.$el.textContent
-
-    this.$el.textContent = text
   }
 
   clear() {
